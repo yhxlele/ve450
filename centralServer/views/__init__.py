@@ -1,0 +1,1 @@
+from centralServer.views.index import show_index

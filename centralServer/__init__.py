@@ -7,3 +7,4 @@ app.config.from_envvar('SERVER_SETTINGS', silent=True)
 
 import centralServer.views
 import centralServer.model
+import centralServer.api

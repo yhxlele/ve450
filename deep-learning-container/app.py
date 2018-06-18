@@ -30,7 +30,7 @@ def main():
 def sendfile():
     data = request.get_json()
     print(data)
-    dir_data = data["dir"]
+    dir_data = data["input_dir"]
     thrd = Process(target=run_python_file, args=(dir_data, ))
     g.running_thread = thrd
     thrd.start()

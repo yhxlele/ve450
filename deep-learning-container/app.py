@@ -5,6 +5,12 @@ import os
 import socket
 from threading import Thread
 from multiprocessing import Process
+# import urllib
+# import urllib.request
+import urllib2
+# from urllib.request import Request, urlopen
+import flask
+import json
 
 redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
 
@@ -46,6 +52,20 @@ def run_python_file(dir):
     os.system('python /sharedfolder' + dir)
 
 
+def register_container(url):
+
+    values = {
+        'container_name': 'Deep Learning Container',
+        'description': 'Input python script path to train model',
+        'input_list_label': ['Python Script Path', 'Output Path', 'Parameter lists'],
+        'request_list_label': ['input_dir', 'output_dir', 'params']
+    }
+    print(values)
+    req = urllib2.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
+    response = urllib2.urlopen(req)
+    print(response.read())
+
 
 if __name__ == "__main__":
+    register_container("http://192.168.1.110:8000/api/register")
     app.run(host='0.0.0.0', port=80)

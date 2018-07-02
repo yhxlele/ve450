@@ -29,7 +29,6 @@ def sendtask():
         context = {
             "status": "succeed!"
         }
-
     # print(url)
     # print(json.dumps(values, indent=4, separators=(',', ': ')));
     # req = urllib.request.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})

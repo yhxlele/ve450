@@ -52,7 +52,7 @@ class Panel extends Component {
     return (
       <GridItem xs={12} sm={12} md={4} className="Node-panel">
           <Card>
-            <CardHeader color="danger">
+            <CardHeader color={this.props.color}>
               <h4 className={classes.cardTitle}>{this.props.panelname}</h4>
               <p> {this.props.description} </p>
             </CardHeader>
@@ -145,7 +145,6 @@ class Panel extends Component {
       })
       .then((data) => {
         console.log(data)
-        console.log("ddd")
         this.setState({
           input_dir: "",
           output_dir: "",

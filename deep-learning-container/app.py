@@ -55,11 +55,13 @@ def run_python_file(dir):
 def register_container(url):
 
     values = {
+        'container_id': '1',
         'container_name': 'Deep Learning Container',
         'description': 'Input python script path to train model',
         'input_list_label': ['Python Script Path', 'Output Path', 'Parameter lists'],
         'request_list_label': ['input_dir', 'output_dir', 'params']
     }
+
     print(values)
     req = urllib2.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
     response = urllib2.urlopen(req)
@@ -67,5 +69,5 @@ def register_container(url):
 
 
 if __name__ == "__main__":
-    register_container("http://192.168.1.110:8000/api/register")
+    register_container("http://192.168.1.102:8000/api/register")
     app.run(host='0.0.0.0', port=80)

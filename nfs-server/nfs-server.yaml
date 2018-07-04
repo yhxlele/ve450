@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nfs-server
+  namespace: default
+  labels:
+    role: nfs-server
+spec:
+  tolerations:
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+  nodeSelector:
+    node-role.kubernetes.io/master: ""
+  containers:
+  - name: nfs-server
+    image: gcr.io/google_containers/volume-nfs:0.8
+    securityContext:
+      privileged: true
+    ports:
+      - name: nfs-0
+        containerPort: 2049
+        protocol: TCP
+  restartPolicy: Always

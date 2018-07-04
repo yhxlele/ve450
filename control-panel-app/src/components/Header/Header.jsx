@@ -39,9 +39,9 @@ function Header({ ...props }) {
             {makeBrand()}
           </Button>
         </div>
-        <Hidden smDown implementation="css">
+        {/* <Hidden smDown implementation="css">
           <HeaderLinks />
-        </Hidden>
+        </Hidden> */}
         <Hidden mdUp>
           <IconButton
             className={classes.appResponsive}

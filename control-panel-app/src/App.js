@@ -37,8 +37,13 @@ class App extends Component {
         <Grid container spacing={50}>
           {
             container_list.map((container, i) =>
-              (<Panel key={i} color={color_list[i % color_list.length]} panelname={container["container_name"]} description={container["description"]} url="/api/sendtask"/>),
-            )
+              (<Panel 
+                key={i} 
+                color={color_list[i % color_list.length]} 
+                panelname={container["container_name"]} 
+                description={container["description"]} 
+                url="/api/sendtask"
+                ip={container["ip"]}/>))
           }
         </Grid>
       </div>

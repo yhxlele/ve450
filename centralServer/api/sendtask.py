@@ -9,12 +9,15 @@ import centralServer
 def sendtask():
     
     print("ddd")
-    url = "http://localhost:4000/sendfile"
+    
     # values = {'dir':}
 
     request_json = json.loads(flask.request.data.decode('utf8').replace("'", '"'))
     # print(request_json)
     job_name = request_json["job"]
+    
+    url = "http://" + request_json["ip"] + ":4000/sendfile"
+    
     if job_name == "Deep Learning Container":
         
         values = {

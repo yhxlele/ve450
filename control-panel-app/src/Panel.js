@@ -136,7 +136,8 @@ class Panel extends Component {
         job: this.props.panelname,
         input_dir: this.state.input_dir,
         output_dir: this.state.output_dir,
-        params: this.state.params
+        params: this.state.params,
+        ip: this.props.ip
       }),
     })
       .then((response) => {

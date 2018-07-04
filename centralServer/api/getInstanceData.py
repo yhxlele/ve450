@@ -19,7 +19,10 @@ def getInstanceData():
 
 def get_instance_data():
     org_data = []
+    return_data = []
     with open(os.path.join('./centralServer', 'static/model/file.json'), "r") as f:
         line = f.readline()
         org_data = json.loads(line)
-    return {"data": org_data}
+        for k, v in org_data.items():
+            return_data.append(v)
+    return {"data": return_data}

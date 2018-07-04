@@ -22,7 +22,7 @@ def register():
     data = request.get_json()
     print(centralServer.app.instance_path)
 
-    add_new_instance(data)
+    add_new_instance(data, request.remote_addr)
 
     context = {
         "status": "new instance added!"
@@ -30,22 +30,31 @@ def register():
     return (flask.jsonify(**context), 201)
 
 
-def add_new_instance(data):
+def add_new_instance(data, ip_addr):
     org_data = []
     with open(os.path.join('./centralServer', 'static/model/file.json'), "r+") as f:
         fcntl.flock(f, fcntl.LOCK_EX)
         line = f.readline()
         org_data = json.loads(line)
-        
-        container_id = data["container_id"]
-        print(org_data)
-        if container_id in org_data:
-            org_data[container_id]["container_num"] += 1
+    
+        if ip_addr not in org_data:
+            org_data[ip_addr] = data
+            org_data[ip_addr]["container_num"] = 1
+            org_data[ip_addr]["ip"] = ip_addr
             pass
         else:
-            org_data[container_id] = data
-            org_data[container_id]["container_num"] = 1
+            org_data[ip_addr]["container_num"] += 1
             pass
+
+        # container_id = data["container_id"]
+        # print(org_data)
+        # if container_id in org_data:
+        #     org_data[container_id]["container_num"] += 1
+        #     pass
+        # else:
+        #     org_data[container_id] = data
+        #     org_data[container_id]["container_num"] = 1
+        #     pass
         f.seek(0)
         json.dump(org_data, f)
         fcntl.flock(f, fcntl.LOCK_UN)

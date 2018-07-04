@@ -49,12 +49,15 @@ def stopthread():
 
 
 def run_python_file(dir):
-    os.system('python /sharedfolder' + dir)
+    os.system('python ' + os.path.join("/", dir))
 
 
 def register_container(url):
-
+    
+    local_ip = socket.gethostbyname(socket.gethostname())
+    print(local_ip)
     values = {
+        'ip': local_ip,
         'container_id': '1',
         'container_name': 'Deep Learning Container',
         'description': 'Input python script path to train model',
@@ -71,3 +74,5 @@ def register_container(url):
 if __name__ == "__main__":
     register_container("http://192.168.1.102:8000/api/register")
     app.run(host='0.0.0.0', port=80)
+
+

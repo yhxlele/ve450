@@ -1,1 +1,1 @@
-{"1": {"request_list_label": ["input_dir", "output_dir", "params"], "container_id": "1", "input_list_label": ["Python Script Path", "Output Path", "Parameter lists"], "description": "Input python script path to train model", "container_name": "Deep Learning Container", "container_num": 3}}
+{}

@@ -142,7 +142,7 @@ class Panel extends Component {
     })
       .then((response) => {
         if (!response.ok) {
-          window.alert("Bad Request!");
+          window.alert("Fail!");
           throw Error(response.statusText);
         } else {
           window.alert("Success!");

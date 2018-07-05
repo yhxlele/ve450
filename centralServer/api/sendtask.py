@@ -26,11 +26,17 @@ def sendtask():
     try:
         response = urlopen(req)
         print(response.read())
-    except urllib.error.HTTPError:
-        context = {
-            "status": "HTTP Bad Request!"
-        }
-        return (flask.jsonify(**context), 400)
+    except urllib.error.HTTPError as e:
+        if e.code == 400:
+            context = {
+                "status": "HTTP Bad Request!"
+            }
+            return (flask.jsonify(**context), 400)
+        else:
+            context = {
+                "status": "HTTP Internal Error!"
+            }
+            return (flask.jsonify(**context), 500)
         
     context = {
         "status": "Succeed!"

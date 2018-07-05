@@ -28,7 +28,7 @@ def sendtask():
         print(response.read())
     except urllib.error.HTTPError:
         context = {
-            "status": "Request!"
+            "status": "HTTP Bad Request!"
         }
         return (flask.jsonify(**context), 400)
         

@@ -88,7 +88,7 @@ def register_container(url):
     local_ip = ""
     with open("/config.txt") as f:
         for line in f:
-            local_ip = line
+            local_ip = line.strip()
 
     print(local_ip)
     values = {
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     req = urllib2.Request("https://mboard-middle-server.herokuapp.com/api/getip", json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
     response = urllib2.urlopen(req)
     # print(json.loads(response.read()))
-    tmp = json.loads(response.read())["ip"]
+    tmp = json.loads(response.read())["ip"].strip()
     print(tmp)
     register_container("http://" + tmp + ":8000/api/register")
     app.run(host='0.0.0.0', port=80)

@@ -36,11 +36,12 @@ def main():
 def sendfile():
     data = request.get_json()
     print(data)
-    dir_data = data["input_dir"]
-    thrd = Process(target=run_python_file, args=(dir_data, ))
+    input_dir = data["input_dir"]
+    output_dir = data["output_dir"]
+    thrd = Process(target=run_python_file, args=(input_dir, output_dir))
     g.running_thread = thrd
     thrd.start()
-    return "succeed in sending running script"
+    return "Successfully sent running script"
 
 
 @app.route("/stopthread", methods=['GET'])
@@ -48,8 +49,12 @@ def stopthread():
     g.running_thread.terminate()
 
 
-def run_python_file(dir):
-    os.system('python ' + os.path.join("/", dir))
+def run_python_file(dir, output_dir):
+    path, file = os.path.split(dir)
+    os.chdir(path)
+    
+    outputFileName = "stdout.txt"
+    os.system('python ' + os.path.join("/", dir) + " > " + outputFileName)
 
 
 def register_container(url):

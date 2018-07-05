@@ -15,5 +15,7 @@ services:
       - "4000:80"
     networks:
       - webnet
+    volumes:
+      - /Users:/Users 
 networks:
   webnet:

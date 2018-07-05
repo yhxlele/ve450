@@ -40,7 +40,7 @@ def add_new_instance(data, ip_addr):
         if ip_addr not in org_data:
             org_data[ip_addr] = data
             org_data[ip_addr]["container_num"] = 1
-            org_data[ip_addr]["ip"] = ip_addr
+            # org_data[ip_addr]["ip"] = ip_addr
             pass
         else:
             org_data[ip_addr]["container_num"] += 1

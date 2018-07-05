@@ -8,7 +8,7 @@ services:
       resources:
         limits:
           cpus: "0.1"
-          memory: 50M
+          memory: 800M
       restart_policy:
         condition: on-failure
     ports:
@@ -16,7 +16,7 @@ services:
     networks:
       - webnet
     volumes:
-      - /Users:/Users 
+      - /Users:/Users
       - /etc/config.txt:/config.txt
 networks:
   webnet:

@@ -41,21 +41,31 @@ def register():
 
 
 def add_new_instance(data, ip_addr):
+    print("data = ", data)
+    container_id = data["container_id"]
+    print("container_id = ", container_id)
     org_data = []
     with open(os.path.join('./centralServer', 'static/model/file.json'), "r+") as f:
         fcntl.flock(f, fcntl.LOCK_EX)
         line = f.readline()
         org_data = json.loads(line)
+
         ip_addr = data["ip"]
-        print(data)
-        print(ip_addr)
-        if ip_addr not in org_data:
-            org_data[ip_addr] = data
-            org_data[ip_addr]["container_num"] = 1
-            # org_data[ip_addr]["ip"] = ip_addr
+        # print(data)
+        # print(ip_addr)
+
+        if (ip_addr not in org_data):
+            org_data[ip_addr] = {}
+            org_data[ip_addr][container_id] = data
+            org_data[ip_addr][container_id]["container_num"] = 1
+            # org_data[ip_addr][container_id]["ip"] = ip_addr
             pass
+        elif container_id not in org_data[ip_addr]:
+            org_data[ip_addr][container_id] = data
+            org_data[ip_addr][container_id]["container_num"] = 1
+            # org_data[ip_addr][container_id]["ip"] = ip_addr
         else:
-            org_data[ip_addr]["container_num"] += 1
+            org_data[ip_addr][container_id]["container_num"] += 1
             pass
 
         # container_id = data["container_id"]
@@ -67,6 +77,7 @@ def add_new_instance(data, ip_addr):
         #     org_data[container_id] = data
         #     org_data[container_id]["container_num"] = 1
         #     pass
+        print("------------- org_data = ", org_data)
         f.seek(0)
         json.dump(org_data, f)
         fcntl.flock(f, fcntl.LOCK_UN)

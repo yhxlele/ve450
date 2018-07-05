@@ -45,13 +45,19 @@ class Monitor extends Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data)
-        let tmp_data = data["data"].map(container => {
-          return [container["ip"], container["container_id"], container["container_num"], container["container_name"]]
-        })
-        this.setState({
-          container_list: tmp_data
-        });
+        var Num = data["data"].length
+        for (var i = 0; i < Num; i++){
+          var dic = data["data"][i]
+          var containers = []
+          Object.keys(dic).forEach(function(key){
+            var container = dic[key]
+            containers.push([container["ip"], container["container_id"], container["container_num"], container["container_name"]])
+          });
+          this.setState({
+            container_list: containers
+          });
+        }
+        
       })
       .catch(error => console.log(error)); // eslint-disable-line no-console
   }

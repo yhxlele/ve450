@@ -7,7 +7,7 @@ import socket
 
 local_ip = socket.gethostbyname(socket.gethostname())
 values = {
-    "name": "brad",
+    "name": "gaole",
     "ip": local_ip
 }
 print("start")

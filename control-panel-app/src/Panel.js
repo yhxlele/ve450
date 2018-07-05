@@ -54,6 +54,7 @@ class Panel extends Component {
             <CardHeader color={this.props.color}>
               <h4 className={classes.cardTitle}>{this.props.panelname}</h4>
               <p> {this.props.description} </p>
+              <p> ip: {this.props.ip}, container_id: {this.props.container_id}</p>
             </CardHeader>
             <CardBody>
             <form id="comment-form" onSubmit={this.handleSubmit}>

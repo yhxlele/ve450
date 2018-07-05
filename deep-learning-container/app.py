@@ -114,7 +114,7 @@ def register_container(url):
 if __name__ == "__main__":    
     values = {
         'method': "get_ip",
-        "name": "brad"
+        "name": "gaole"
     }
 
     req = urllib2.Request("https://mboard-middle-server.herokuapp.com/api/getip", json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})

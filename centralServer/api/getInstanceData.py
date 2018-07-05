@@ -26,5 +26,4 @@ def get_instance_data():
         for k, v in org_data.items():
             for kk, vv in v.items():
                 return_data.append(vv)
-    print(return_data)
     return {"data": return_data}

@@ -15,24 +15,22 @@ def sendtask():
     job_name = request_json["job"]
     
     url = "http://" + request_json["ip"] + ":4000/sendfile"
-    
-    if job_name == "Deep Learning Container":
         
-        values = {
-            'input_dir': request_json["input_dir"],
-            'output_dir': request_json["output_dir"],
-            'params': request_json["params"]
-        }
+    values = {
+        'input_dir': request_json["input_dir"],
+        'output_dir': request_json["output_dir"],
+        'params': request_json["params"]
+    }
 
-        req = urllib.request.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
-        try:
-            response = urlopen(req)
-            print(response.read())
-        except urllib.error.HTTPError:
-            context = {
-                "status": "Request!"
-            }
-            return (flask.jsonify(**context), 400)
+    req = urllib.request.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
+    try:
+        response = urlopen(req)
+        print(response.read())
+    except urllib.error.HTTPError:
+        context = {
+            "status": "Request!"
+        }
+        return (flask.jsonify(**context), 400)
         
     context = {
         "status": "Succeed!"

@@ -17,5 +17,6 @@ services:
       - webnet
     volumes:
       - /Users:/Users 
+      - /etc/config.txt:/config.txt
 networks:
   webnet:

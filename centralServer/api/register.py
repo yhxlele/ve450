@@ -7,6 +7,7 @@ import flask
 import json
 import centralServer
 import struct, fcntl
+import socket
 
 
 
@@ -15,12 +16,21 @@ def set_up():
     g.data = []
     with open(os.path.join('./centralServer', 'static/model/file.json'), "w") as f:
         f.write("{}")
+    
+    # local_ip = socket.gethostbyname(socket.gethostname())
+    # values = {
+    #     "name": "brad",
+    #     "ip": local_ip
+    # }
+    # req = urllib.request.Request("http://localhost:8080/api/sendip", json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
+    # response = urlopen(req)
+    # print(response.read())
+
 
 
 @centralServer.app.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
-    print(centralServer.app.instance_path)
 
     add_new_instance(data, request.remote_addr)
 
@@ -36,7 +46,9 @@ def add_new_instance(data, ip_addr):
         fcntl.flock(f, fcntl.LOCK_EX)
         line = f.readline()
         org_data = json.loads(line)
-    
+        ip_addr = data["ip"]
+        print(data)
+        print(ip_addr)
         if ip_addr not in org_data:
             org_data[ip_addr] = data
             org_data[ip_addr]["container_num"] = 1

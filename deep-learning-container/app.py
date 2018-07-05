@@ -53,8 +53,12 @@ def run_python_file(dir):
 
 
 def register_container(url):
-    
-    local_ip = socket.gethostbyname(socket.gethostname())
+
+    local_ip = ""
+    with open("/config.txt") as f:
+        for line in f:
+            local_ip = line
+
     print(local_ip)
     values = {
         'ip': local_ip,
@@ -72,7 +76,17 @@ def register_container(url):
 
 
 if __name__ == "__main__":
-    register_container("http://192.168.99.1:8000/api/register")
+    
+    values = {
+        'method': "get_ip",
+        "name": "brad"
+    }
+
+    req = urllib2.Request("https://mboard-middle-server.herokuapp.com/api/getip", json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
+    response = urllib2.urlopen(req)
+    # print(json.loads(response.read()))
+    tmp = json.loads(response.read())["ip"]
+    register_container("http://" + tmp + ":8000/api/register")
     app.run(host='0.0.0.0', port=80)
 
 

@@ -8,8 +8,6 @@ import centralServer
 @centralServer.app.route('/api/sendtask', methods=['POST'])
 def sendtask():
     
-    print("ddd")
-    
     # values = {'dir':}
 
     request_json = json.loads(flask.request.data.decode('utf8').replace("'", '"'))
@@ -25,6 +23,7 @@ def sendtask():
             'output_dir': request_json["output_dir"],
             'params': request_json["params"]
         }
+
         req = urllib.request.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
         response = urlopen(req)
         print(response.read())

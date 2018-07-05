@@ -53,7 +53,6 @@ def run_python_file(dir):
 
 
 def register_container(url):
-    
     local_ip = socket.gethostbyname(socket.gethostname())
     print(local_ip)
     values = {
@@ -72,7 +71,7 @@ def register_container(url):
 
 
 if __name__ == "__main__":
-    register_container("http://192.168.1.102:8000/api/register")
+    register_container("http://10.167.221.94:8000/api/register")
     app.run(host='0.0.0.0', port=80)
 
 

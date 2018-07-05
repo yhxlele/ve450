@@ -93,7 +93,7 @@ def register_container(url):
     print(local_ip)
     values = {
         'ip': local_ip,
-        'container_id': '1',
+        'container_id': '2',
         'container_name': 'Deep Learning Container',
         'description': 'Input python script path to train model',
         'input_list_label': ['Python Script Path', 'Output Path', 'Parameter lists'],

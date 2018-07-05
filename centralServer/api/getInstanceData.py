@@ -24,5 +24,7 @@ def get_instance_data():
         line = f.readline()
         org_data = json.loads(line)
         for k, v in org_data.items():
-            return_data.append(v)
+            for kk, vv in v.items():
+                return_data.append(vv)
+    print(return_data)
     return {"data": return_data}

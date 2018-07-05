@@ -10,6 +10,7 @@ values = {
     "name": "brad",
     "ip": local_ip
 }
+print("start")
 req = urllib.request.Request("https://mboard-middle-server.herokuapp.com/api/sendip", json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
 response = urlopen(req)
 print(response.read())

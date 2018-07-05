@@ -43,7 +43,7 @@ class App extends Component {
                 panelname={container["container_name"]} 
                 description={container["description"]} 
                 url="/api/sendtask"
-                ip={container["ip"]}/>))
+                ip={container["ip"]}/>)) 
           }
         </Grid>
       </div>

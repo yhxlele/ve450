@@ -35,13 +35,40 @@ def main():
 @app.route("/sendfile", methods=['POST'])
 def sendfile():
     data = request.get_json()
-    print(data)
-    input_dir = data["input_dir"]
+    print("REQUEST = ", data)
+    input_file = data["input_dir"]
     output_dir = data["output_dir"]
-    thrd = Process(target=run_python_file, args=(input_dir, output_dir))
-    g.running_thread = thrd
-    thrd.start()
-    return "Successfully sent running script"
+
+    isValidPath, msg = checkpath(input_file, output_dir)
+
+    context = {
+        "status": msg
+    }
+
+    if isValidPath:
+        thrd = Process(target=run_python_file, args=(input_file, output_dir))
+        g.running_thread = thrd
+        thrd.start()
+        return (flask.jsonify(**context), 201)
+
+    print("Message = ", msg)
+    return (flask.jsonify(**context), 400)
+
+def checkpath(input_file, output_dir):
+    valid = 0
+    if os.path.isfile(input_file):
+        valid += 1
+    if os.path.exists(output_dir):
+        valid += 3
+
+    if valid == 1:
+        return False, "Invalid output directory!"
+    elif valid == 3:
+        return False, "Invalid input file path and name!"
+    elif valid == 0:
+        return False, "Invalid two file paths!"
+    else:
+        return True, "Valid file paths."
 
 
 @app.route("/stopthread", methods=['GET'])
@@ -49,12 +76,12 @@ def stopthread():
     g.running_thread.terminate()
 
 
-def run_python_file(dir, output_dir):
-    path, file = os.path.split(dir)
+def run_python_file(input_file, output_dir):
+    path, file = os.path.split(input_file)
     os.chdir(path)
     
     outputFileName = "stdout.txt"
-    os.system('python ' + os.path.join("/", dir) + " > " + outputFileName)
+    os.system('python ' + os.path.join("/", input_file) + " > " + outputFileName)
 
 
 def register_container(url):
@@ -71,7 +98,10 @@ def register_container(url):
 
     print(values)
     req = urllib2.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
-    response = urllib2.urlopen(req)
+    try:
+        response = urllib2.urlopen(req)
+    except:
+        print("Error!")
     print(response.read())
 
 

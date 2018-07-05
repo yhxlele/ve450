@@ -31,7 +31,6 @@ var styles = {
 };
 
 
-
 class Panel extends Component {
 
 
@@ -141,7 +140,12 @@ class Panel extends Component {
       }),
     })
       .then((response) => {
-        if (!response.ok) throw Error(response.statusText);
+        if (!response.ok) {
+          window.alert("Bad Request!");
+          throw Error(response.statusText);
+        } else {
+          window.alert("Success!");
+        }
         return response.json();
       })
       .then((data) => {

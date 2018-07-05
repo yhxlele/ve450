@@ -25,12 +25,18 @@ def sendtask():
         }
 
         req = urllib.request.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
-        response = urlopen(req)
-        print(response.read())
-    
-        context = {
-            "status": "succeed!"
-        }
+        try:
+            response = urlopen(req)
+            print(response.read())
+        except urllib.error.HTTPError:
+            context = {
+                "status": "Request!"
+            }
+            return (flask.jsonify(**context), 400)
+        
+    context = {
+        "status": "Succeed!"
+    }
     # print(url)
     # print(json.dumps(values, indent=4, separators=(',', ': ')));
     # req = urllib.request.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})

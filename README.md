@@ -62,4 +62,10 @@ docker run -p 4000:80  -v  /Users:/Users -v ~/config.txt:/config.txt gaole/deepl
 ```
 You should see in the UI system that a new machine (container) has show up in the table list, click to the ```dashboard``` and send a python running script to it
 
+### TODO
 
+List of things waiting to be done to the system
+
+1. Verify and finish the user and system api format (specify what we can provide, and what the user need to provide in a programmatical way)
+2. Change docker swarm to kubernetes, so the method of create cluster with docker-swarm is not listed here. (Or use both)
+3. Create other container edge node for other usage, like media processing.

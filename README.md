@@ -43,7 +43,7 @@ cd control-panel-app
 npm install .
 cd ..
 
-#run
+# run the control panel ui system
 sh run_control_panel.sh
 ```
 
@@ -61,3 +61,5 @@ echo "$your_local_ip" > ~/config.txt
 docker run -p 4000:80  -v  /Users:/Users -v ~/config.txt:/config.txt gaole/deeplearning-containe
 ```
 You should see in the UI system that a new machine (container) has show up in the table list, click to the ```dashboard``` and send a python running script to it
+
+

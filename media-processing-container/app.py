@@ -93,9 +93,9 @@ def register_container(url):
     print(local_ip)
     values = {
         'ip': local_ip,
-        'container_id': '1',
-        'container_name': 'Deep Learning Edge Node',
-        'description': 'Input python script path to train model',
+        'container_id': '2',
+        'container_name': 'Media Processing',
+        'description': 'Input python script for video convertor',
         'input_list_label': ['Python Script Path', 'Output Path', 'Parameter lists'],
         'request_list_label': ['input_dir', 'output_dir', 'params']
     }

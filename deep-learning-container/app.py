@@ -4,18 +4,26 @@ import importlib
 import os
 import socket
 from threading import Thread
+import time
 from multiprocessing import Process
 # import urllib
 # import urllib.request
 import urllib2
+import requests
+import tempfile
+import zipfile
 # from urllib.request import Request, urlopen
 import flask
 import json
-
 redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
 
 app = Flask(__name__)
 
+UPLOAD_FOLDER = '/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if not os.path.isdir(UPLOAD_FOLDER):
+    os.mkdir(UPLOAD_FOLDER)
 
 @app.route("/")
 def main():
@@ -34,25 +42,79 @@ def main():
 
 @app.route("/sendfile", methods=['POST'])
 def sendfile():
-    data = request.get_json()
-    print("REQUEST = ", data)
-    input_file = data["input_dir"]
-    output_dir = data["output_dir"]
-
-    isValidPath, msg = checkpath(input_file, output_dir)
-
     context = {
-        "status": msg
+        "name": "sendfile",
+        "status": "fail"
     }
 
-    if isValidPath:
-        thrd = Process(target=run_python_file, args=(input_file, output_dir))
-        g.running_thread = thrd
-        thrd.start()
-        return (flask.jsonify(**context), 201)
+    if 'file' not in request.files:
+        print("no file part")
+        return (flask.jsonify(**context), 401)
+    ref_file = request.files['file']
+    
+    if ref_file.filename == '':
+        print('No selected file')
+        return (flask.jsonify(**context), 402)
 
-    print("Message = ", msg)
-    return (flask.jsonify(**context), 400)
+    # if ref_file and not zipfile.is_zipfile(ref_file.filename):
+    #     print('Only zipfile allowed')
+    #     return (flask.jsonify(**context), 403)
+        
+    context["status"] = "success"
+    # /uploads/current_time/ref_file.filename()
+    running_dir = os.path.join(app.config["UPLOAD_FOLDER"], str(time.time()))
+    
+    # create a folder for the running dir
+    os.mkdir(running_dir)
+    ref_file.save(os.path.join(running_dir, ref_file.filename))
+    print(os.path.join(running_dir, ref_file.filename))
+    if not zipfile.is_zipfile(os.path.join(running_dir, ref_file.filename)):
+        return (flask.jsonify(**context), 401)
+    
+    zip_output = zipfile.ZipFile(os.path.join(running_dir, ref_file.filename))
+    
+    # all the files are in the running dir
+
+    os.chdir(running_dir)
+    zip_output.extractall()
+    print(os.getcwd())
+    print(os.listdir(os.getcwd()))
+    outputFileName = "_stdout.txt"
+    os.system('sh ./run.sh' + " > " + outputFileName)
+
+    print("_stdout.txt succeed in output")
+    # (dummy, temp_filename) = tempfile.mkstemp()
+    # file.save(temp_filename)
+    # hash_txt = sha1sum(temp_filename)
+    # (dummy, suffix) = os.path.splitext(file.filename)
+    # hash_filename_basename = hash_txt + suffix
+    # hash_filename = os.path.join(UPLOAD_FOLDER, hash_filename_basename)
+
+    url = "http://" + app.config["central_ip"] + ":8000/api/recvfile"
+    print(url)
+    with open(outputFileName) as f:
+        req = requests.post(url, files={'file': f})
+
+    return (flask.jsonify(**context), 201)
+    # data = request.get_json()
+    # print("REQUEST = ", data)
+    # input_file = data["input_dir"]
+    # output_dir = data["output_dir"]
+
+    # isValidPath, msg = checkpath(input_file, output_dir)
+
+    # context = {
+    #     "status": msg
+    # }
+
+    # if isValidPath:
+    #     thrd = Process(target=run_python_file, args=(input_file, output_dir))
+    #     g.running_thread = thrd
+    #     thrd.start()
+    #     return (flask.jsonify(**context), 201)
+
+    # print("Message = ", msg)
+    # return (flask.jsonify(**context), 400)
 
 def checkpath(input_file, output_dir):
     valid = 0
@@ -122,6 +184,9 @@ if __name__ == "__main__":
     # print(json.loads(response.read()))
     tmp = json.loads(response.read())["ip"].strip()
     print(tmp)
+
+    app.config["central_ip"] = tmp
+
     register_container("http://" + tmp + ":8000/api/register")
     app.run(host='0.0.0.0', port=80)
 

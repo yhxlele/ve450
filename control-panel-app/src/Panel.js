@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 
 import TextField from '@material-ui/core/TextField'
+import Upload from 'rc-upload';
+
 
 // import Card from "./components/Card/Card.jsx";
 
@@ -42,6 +44,38 @@ class Panel extends Component {
     this.handleChangeOutput = this.handleChangeOutput.bind(this);
     this.handleChangeParams = this.handleChangeParams.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.uploaderProps = {
+      action: this.props.url,
+      data: {
+        job: this.props.panelname,
+        input_dir: this.state.input_dir,
+        output_dir: this.state.output_dir,
+        params: this.state.params,
+        ip: this.props.ip,
+        flag: true
+      },
+      headers: {
+        Authorization: 'xxxxxxx',
+      },
+      multiple: true,
+      beforeUpload(file) {
+        console.log('beforeUpload', file.name);
+      },
+      onStart: (file) => {
+        console.log('onStart', file.name);
+        // this.refs.inner.abort(file);
+      },
+      onSuccess(file) {
+        console.log('onSuccess', file);
+      },
+      onProgress(step, file) {
+        console.log('onProgress', Math.round(step.percent), file.name);
+      },
+      onError(err) {
+        console.log('onError', err);
+      },
+    };
   }
 
   render() {
@@ -58,7 +92,7 @@ class Panel extends Component {
             </CardHeader>
             <CardBody>
             <form id="comment-form" onSubmit={this.handleSubmit}>
-              <div className="row">
+              {/* <div className="row">
                 <TextField
                   className="fullwidth"
                   id="name full-width"
@@ -95,6 +129,9 @@ class Panel extends Component {
                 <Button type="submit" variant="contained" color="primary">
                   Submit
                 </Button>
+              </div> */}
+              <div className="row">
+                <Upload {...this.uploaderProps} ref="inner"><a>开始上传</a></Upload>
               </div>
            </form>
 

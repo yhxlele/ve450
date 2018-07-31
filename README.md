@@ -64,7 +64,7 @@ touch ~/config.txt
 echo "$your_local_ip" > ~/config.txt
 
 # run the docker container on your own machine
-docker run -p 4000:80  -v  /Users:/Users -v ~/config.txt:/config.txt gaole/deeplearning-containe
+docker run -p 4000:80  -v  /Users:/Users -v ~/config.txt:/config.txt gaole/deeplearning-container
 ```
 
 This is a single edge node demo version, so we directly run a docker container on the same machine with the central server, to submit a job to this node, we can prepare a zip file of a python script with the file that this python file needs.

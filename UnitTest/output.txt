@@ -1,1 +1,4 @@
-succeed!!
+The task has finished in deep learning edge node
+The input file is "/Users/menggaole/Desktop/Untitled/app.py"
+The output path is "/Users/menggaole/Desktop/Untitled/"
+The param list is ""

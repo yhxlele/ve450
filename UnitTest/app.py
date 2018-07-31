@@ -10,19 +10,7 @@ from __future__ import print_function
 import tensorflow as tf
 import numpy
 import matplotlib.pyplot as plt
-import sys
 rng = numpy.random
-
-
-import os
-cwd = os.getcwd()
-
-print("------ Current directory:")
-print(cwd)
-
-for root, dirs, files in os.walk("."):  
-    for filename in files:
-        print(filename)
 
 # Parameters
 learning_rate = 0.01
@@ -81,5 +69,3 @@ with tf.Session() as sess:
 f = open("./output.txt", "w")
 f.write("succeed!!")
 f.close()
-
-print('Finish!!', file=sys.stderr)

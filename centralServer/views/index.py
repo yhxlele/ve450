@@ -7,8 +7,6 @@ import centralServer
 @centralServer.app.route('/', methods=['GET'])
 def show_index():
     # deprecated!!!
-
-	
 	context = {'css': url_for('static', filename = 'css/style.css')}
 	# if request.method == 'POST':
 	# 	data = request.form

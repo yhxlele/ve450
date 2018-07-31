@@ -29,9 +29,9 @@ def recvfile():
     # create a folder for the running dir
     ref_file.save(os.path.join(running_dir, ref_file.filename))
     print(os.path.join(running_dir, ref_file.filename))
-    os.chdir(running_dir)
-    print(os.getcwd())
-    print(os.listdir(os.getcwd()))
+    # os.chdir(running_dir)
+    # print(os.getcwd())
+    # print(os.listdir(os.getcwd()))
     
-    print("recvfile succeed")
+    # print("recvfile succeed")
     return (flask.jsonify(**context), 201)

@@ -30,6 +30,12 @@ nodeenv --python-virtualenv
 # reactivate the environment
 deactivate
 source env/bin/activate
+
+# build the container for deep learning locally
+cd deep-learning-container
+docker build -t gaole/deeplearning-container .
+cd ..
+
 sh run_central.sh
 ```
 
@@ -60,7 +66,23 @@ echo "$your_local_ip" > ~/config.txt
 # run the docker container on your own machine
 docker run -p 4000:80  -v  /Users:/Users -v ~/config.txt:/config.txt gaole/deeplearning-containe
 ```
-You should see in the UI system that a new machine (container) has show up in the table list, click to the ```dashboard``` and send a python running script to it
+
+This is a single edge node demo version, so we directly run a docker container on the same machine with the central server, to submit a job to this node, we can prepare a zip file of a python script with the file that this python file needs.
+
+We have prepared this for you in the project folder
+
+```
+# the python script zip file is "./UnitTest/Archive.zip"
+# This zip file include ["app.py", "run.sh"]
+# app.py is a simple linear regression script
+# run.sh is a bash script to run the python file
+# open UI interface, write "sh ./run.sh" in the text field
+# and submit the zip file
+# After several seconds, the output should show up in "./centralServer/static/model/_stdout.txt"
+
+# after task finish
+cat ./centralServer/static/model/_stdout.txt
+```
 
 ### TODO
 

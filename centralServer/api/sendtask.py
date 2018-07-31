@@ -18,6 +18,9 @@ def sendtask():
     
     url = "http://" + request_json["ip"] + ":4000/sendfile"
 
+    file_data = {'file': request.files['file']}
+    value_data = {'command': request_json['command']}
+
     # values = {
     #     'input_dir': request_json["input_dir"],
     #     'output_dir': request_json["output_dir"],
@@ -25,7 +28,7 @@ def sendtask():
     #}
     # req = urllib.request.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
     try:
-        requests.post(url, files={'file': request.files['file']})
+        requests.post(url, files=file_data, data=value_data)
     except urllib.error.HTTPError as e:
         if e.code == 400:
             context = {

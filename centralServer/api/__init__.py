@@ -6,6 +6,8 @@ from centralServer.api.recvfile import *
 
 import socket
 
+
+print("socket finish")
 local_ip = socket.gethostbyname(socket.gethostname())
 values = {
     "name": "gaole",

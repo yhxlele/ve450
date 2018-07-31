@@ -39,11 +39,14 @@ class Panel extends Component {
   constructor(props) {
     // Initialize the state
     super(props);
-    this.state = { input_dir: '', output_dir: '', params: '' };
+    this.state = { input_dir: '', output_dir: '', params: '', command: ''};
     this.handleChangeInput = this.handleChangeInput.bind(this);
     this.handleChangeOutput = this.handleChangeOutput.bind(this);
     this.handleChangeParams = this.handleChangeParams.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCommand = this.handleCommand.bind(this);
+
+    var tmp = this
 
     this.uploaderProps = {
       action: this.props.url,
@@ -53,6 +56,7 @@ class Panel extends Component {
         output_dir: this.state.output_dir,
         params: this.state.params,
         ip: this.props.ip,
+        command: tmp.state.command,
         flag: true
       },
       headers: {
@@ -68,12 +72,20 @@ class Panel extends Component {
       },
       onSuccess(file) {
         console.log('onSuccess', file);
+        window.alert("Success!");
+        // tmp.setState({
+        //   command: "",
+        // });
       },
       onProgress(step, file) {
         console.log('onProgress', Math.round(step.percent), file.name);
       },
       onError(err) {
         console.log('onError', err);
+        window.alert("Fail!");
+        // tmp.setState({
+        //   command: "",
+        // });
       },
     };
   }
@@ -130,8 +142,23 @@ class Panel extends Component {
                   Submit
                 </Button>
               </div> */}
+
               <div className="row">
-                <Upload {...this.uploaderProps} ref="inner"><a>开始上传</a></Upload>
+              <TextField
+                className="fullwidth"
+                id="name full-width"
+                label="Command #eg: sh ./run.sh"
+                margin="normal"
+                fullWidth
+                value={this.state.command}
+                onChange={this.handleCommand}
+              />
+              </div>
+
+              <div className="submitbutton row">
+                <Button type="submit" variant="contained" color="primary">
+                  <Upload {...this.uploaderProps} ref="inner">Upload Folder Zip</Upload>
+                </Button>
               </div>
            </form>
 
@@ -140,6 +167,16 @@ class Panel extends Component {
       </GridItem>
     );
   }
+
+
+  handleCommand(event) {
+    event.preventDefault();
+    this.setState({
+      command: event.target.value,
+    });
+    this.uploaderProps.data.command = event.target.value
+  };
+
 
 
   handleChangeInput(event) {
@@ -166,35 +203,35 @@ class Panel extends Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log(this.props.url)
-    fetch(this.props.url, {
-      credentials: 'include',
-      method: 'POST',
-      body: JSON.stringify({
-        job: this.props.panelname,
-        input_dir: this.state.input_dir,
-        output_dir: this.state.output_dir,
-        params: this.state.params,
-        ip: this.props.ip
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          window.alert("Fail!");
-          throw Error(response.statusText);
-        } else {
-          window.alert("Success!");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data)
-        this.setState({
-          input_dir: "",
-          output_dir: "",
-          params: ""
-        });
-      })
-      .catch(error => console.log(error)); // eslint-disable-line no-console
+    // fetch(this.props.url, {
+    //   credentials: 'include',
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     job: this.props.panelname,
+    //     input_dir: this.state.input_dir,
+    //     output_dir: this.state.output_dir,
+    //     params: this.state.params,
+    //     ip: this.props.ip
+    //   }),
+    // })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       window.alert("Fail!");
+    //       throw Error(response.statusText);
+    //     } else {
+    //       window.alert("Success!");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data)
+    //     this.setState({
+    //       input_dir: "",
+    //       output_dir: "",
+    //       params: ""
+    //     });
+    //   })
+    //   .catch(error => console.log(error)); // eslint-disable-line no-console
   }
 }
 

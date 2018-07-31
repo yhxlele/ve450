@@ -52,10 +52,13 @@ def sendfile():
         return (flask.jsonify(**context), 401)
     ref_file = request.files['file']
     
+    
     if ref_file.filename == '':
         print('No selected file')
         return (flask.jsonify(**context), 402)
 
+    request_json = flask.request.form.to_dict()
+    print(request_json)
     # if ref_file and not zipfile.is_zipfile(ref_file.filename):
     #     print('Only zipfile allowed')
     #     return (flask.jsonify(**context), 403)
@@ -80,7 +83,7 @@ def sendfile():
     print(os.getcwd())
     print(os.listdir(os.getcwd()))
     outputFileName = "_stdout.txt"
-    os.system('sh ./run.sh' + " > " + outputFileName)
+    os.system(request_json["command"] + " > " + outputFileName)
 
     print("_stdout.txt succeed in output")
     # (dummy, temp_filename) = tempfile.mkstemp()

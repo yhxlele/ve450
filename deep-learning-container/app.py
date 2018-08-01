@@ -77,28 +77,15 @@ def sendfile():
     zip_output = zipfile.ZipFile(os.path.join(running_dir, ref_file.filename))
     
     # all the files are in the running dir
-
     os.chdir(running_dir)
     zip_output.extractall()
     print(os.getcwd())
-    print(os.listdir(os.getcwd()))
-    outputFileName = "_stdout.txt"
-    os.system(request_json["command"] + " > " + outputFileName)
 
-    print("_stdout.txt succeed in output")
-    # (dummy, temp_filename) = tempfile.mkstemp()
-    # file.save(temp_filename)
-    # hash_txt = sha1sum(temp_filename)
-    # (dummy, suffix) = os.path.splitext(file.filename)
-    # hash_filename_basename = hash_txt + suffix
-    # hash_filename = os.path.join(UPLOAD_FOLDER, hash_filename_basename)
-
-    url = "http://" + app.config["central_ip"] + ":8000/api/recvfile"
-    print(url)
-    with open(outputFileName) as f:
-        req = requests.post(url, files={'file': f})
-
+    thrd = Process(target=run_script, args=(str(request_json["command"]), ))
+    g.running_thread = thrd
+    thrd.start()
     return (flask.jsonify(**context), 201)
+    # return (flask.jsonify(**context), 201)
     # data = request.get_json()
     # print("REQUEST = ", data)
     # input_file = data["input_dir"]
@@ -141,12 +128,18 @@ def stopthread():
     g.running_thread.terminate()
 
 
-def run_python_file(input_file, output_dir):
-    path, file = os.path.split(input_file)
-    os.chdir(path)
+def run_script(cmd):
+    # path, file = os.path.split(input_file)
+    # os.chdir(path)
     
-    outputFileName = "stdout.txt"
-    os.system('python ' + os.path.join("/", input_file) + " > " + outputFileName)
+    # outputFileName = "stdout.txt"
+    # os.system('python ' + os.path.join("/", input_file) + " > " + outputFileName)
+
+    outputFileName = "_stdout.txt"
+    os.system(cmd + " > " + outputFileName)
+    url = "http://" + app.config["central_ip"] + ":8000/api/recvfile"
+    with open(outputFileName) as f:
+        req = requests.post(url, files={'file': f})
 
 
 def register_container(url):

@@ -104,55 +104,16 @@ class Panel extends Component {
             </CardHeader>
             <CardBody>
             <form id="comment-form" onSubmit={this.handleSubmit}>
-              {/* <div className="row">
+              <div className="row">
                 <TextField
                   className="fullwidth"
                   id="name full-width"
-                  label="Python Script Path"
+                  label="Command #eg: sh ./run.sh"
                   margin="normal"
                   fullWidth
-                  value={this.state.input_dir}
-                  onChange={this.handleChangeInput}
+                  value={this.state.command}
+                  onChange={this.handleCommand}
                 />
-              </div>
-              <div className="row">
-              <TextField
-                className="fullwidth"
-                id="name full-width"
-                label="Output Path"
-                margin="normal"
-                fullWidth
-                value={this.state.output_dir}
-                onChange={this.handleChangeOutput}
-              />
-              </div>
-              <div className="row">
-              <TextField
-                className="fullwidth"
-                id="name"
-                label="Parameter Lists"
-                margin="normal"
-                fullWidth
-                value={this.state.params}
-                onChange={this.handleChangeParams}
-              />
-              </div>
-              <div className="submitbutton row">
-                <Button type="submit" variant="contained" color="primary">
-                  Submit
-                </Button>
-              </div> */}
-
-              <div className="row">
-              <TextField
-                className="fullwidth"
-                id="name full-width"
-                label="Command #eg: sh ./run.sh"
-                margin="normal"
-                fullWidth
-                value={this.state.command}
-                onChange={this.handleCommand}
-              />
               </div>
 
               <div className="submitbutton row">
@@ -161,7 +122,6 @@ class Panel extends Component {
                 </Button>
               </div>
            </form>
-
             </CardBody>
           </Card>
       </GridItem>

@@ -85,26 +85,7 @@ def sendfile():
     g.running_thread = thrd
     thrd.start()
     return (flask.jsonify(**context), 201)
-    # return (flask.jsonify(**context), 201)
-    # data = request.get_json()
-    # print("REQUEST = ", data)
-    # input_file = data["input_dir"]
-    # output_dir = data["output_dir"]
 
-    # isValidPath, msg = checkpath(input_file, output_dir)
-
-    # context = {
-    #     "status": msg
-    # }
-
-    # if isValidPath:
-    #     thrd = Process(target=run_python_file, args=(input_file, output_dir))
-    #     g.running_thread = thrd
-    #     thrd.start()
-    #     return (flask.jsonify(**context), 201)
-
-    # print("Message = ", msg)
-    # return (flask.jsonify(**context), 400)
 
 def checkpath(input_file, output_dir):
     valid = 0
@@ -138,32 +119,41 @@ def run_script(cmd):
     outputFileName = "_stdout.txt"
     os.system(cmd + " > " + outputFileName)
     url = "http://" + app.config["central_ip"] + ":8000/api/recvfile"
+    self_info = {
+        "ip": app.config["self_ip"],
+        "container_id": app.config["container_id"]
+    }
+
     with open(outputFileName) as f:
-        req = requests.post(url, files={'file': f})
+        req = requests.post(url, files={'file': f}, data=self_info)
 
 
 def register_container(url):
     local_ip = ""
+
+    # the config file for the ip address of the machine
     with open("/config.txt") as f:
         for line in f:
             local_ip = line.strip()
 
-    print(local_ip)
-    values = {
-        'ip': local_ip,
-        'container_id': '1',
-        'container_name': 'Deep Learning Edge Node',
-        'description': 'Input python script path to train model',
-        'input_list_label': ['Python Script Path', 'Output Path', 'Parameter lists'],
-        'request_list_label': ['input_dir', 'output_dir', 'params']
-    }
+    # the config file of the nodes' capability
+    json_data = open("./config.json").read()
+    values = json.loads(json_data)
 
-    print(values)
-    req = urllib2.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
+    # fill the ip in the values
+    values["ip"] = local_ip
+
+    # config the self information
+    app.config["self_ip"] = local_ip
+    app.config["container_id"] = values["container_id"]
     
+
+    # register the container to the central server
+    req = urllib2.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})
+
     try:
         response = urllib2.urlopen(req)
-        print(response.read())
+        print("Central Server Register Complete")
     except:
         print("register stage error!")
     # print(response.read())
@@ -185,5 +175,3 @@ if __name__ == "__main__":
 
     register_container("http://" + tmp + ":8000/api/register")
     app.run(host='0.0.0.0', port=80)
-
-

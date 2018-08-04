@@ -8,4 +8,6 @@ venv/
 env/
 var/
 control-panel-app/node_modules/
+centralServer/static/model/file.json
+centralServer/static/result/*
 

@@ -3,6 +3,7 @@ from centralServer.api.sendtask import sendtask
 from centralServer.api.register import *
 from centralServer.api.getInstanceData import *
 from centralServer.api.recvfile import *
+from centralServer.api.getfile import *
 
 import socket
 

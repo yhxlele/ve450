@@ -4,3 +4,5 @@ importlib
 multiprocessing
 six
 opencv-python
+requests
+matplotlib

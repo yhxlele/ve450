@@ -130,7 +130,7 @@ def run_script(cmd):
 
 def register_container(url):
     local_ip = ""
-    
+
     # the config file for the ip address of the machine
     with open("/config.txt") as f:
         for line in f:
@@ -146,6 +146,7 @@ def register_container(url):
     # config the self information
     app.config["self_ip"] = local_ip
     app.config["container_id"] = values["container_id"]
+    
 
     # register the container to the central server
     req = urllib2.Request(url, json.dumps(values).encode(encoding='UTF8'), headers={'Content-type':'application/json', 'Accept':'text/plain'})

@@ -72,8 +72,8 @@ class Result extends Component {
                 <GridItem xs={12} sm={12} md={8} className="Node-panel">
                 <Card>
                   <CardHeader color={this.state.color_list[i%4]}>
-                    <h4 className={classes.cardTitle}>{file_content["edge_ip"]}</h4>
-                    <p> {file_content["container_id"]} </p>
+                    <h4 className={classes.cardTitle}>IP: {file_content["edge_ip"]}</h4>
+                    <p> Container ID: {file_content["container_id"]} </p>
                   </CardHeader>
                   <CardBody>
                   <pre>

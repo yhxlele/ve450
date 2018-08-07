@@ -10,6 +10,7 @@
             "multiprocessing",
             "siz",
             "requests",
-            "tensorflow"
+            "tensorflow",
+            "keras"
         ]
 }

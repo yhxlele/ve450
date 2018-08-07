@@ -108,6 +108,14 @@ class Panel extends Component {
             <CardBody>
             <form id="comment-form" onSubmit={this.handleSubmit}>
               <div className="row">
+                  {
+                    this.props.package.map((pp, i) =>
+                    (
+                      <Chip label={pp} className={classes.chip } />
+                    )) 
+                  }
+              </div>
+              <div className="row">
                 <TextField
                   className="fullwidth"
                   id="name full-width"
@@ -123,15 +131,6 @@ class Panel extends Component {
                 <Button type="submit" variant="contained" color="primary">
                   <Upload {...this.uploaderProps} ref="inner">Upload Folder Zip</Upload>
                 </Button>
-              </div>
-
-              <div className="row">
-                  {
-                    this.props.package.map((pp, i) =>
-                    (
-                      <Chip label={pp} className={classes.chip } />
-                    )) 
-                  }
               </div>
            </form>
             </CardBody>

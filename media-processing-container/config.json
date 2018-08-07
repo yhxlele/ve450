@@ -1,0 +1,16 @@
+{
+    "container_id": "2",
+    "container_name": "Deep Learning Edge Node",
+    "description": "Input python script path to train model",
+    "package_list": 
+        [
+            "Flask",
+            "Redis",
+            "importlib",
+            "multiprocessing",
+            "siz",
+            "requests",
+            "tensorflow",
+            "kerass"
+        ]
+}

@@ -44,7 +44,8 @@ class App extends Component {
                 description={container["description"]} 
                 url="/api/sendtask"
                 container_id={container["container_id"]}
-                ip={container["ip"]}/>)) 
+                ip={container["ip"]}
+                package={container["package_list"]}/>)) 
           }
         </Grid>
       </div>

@@ -3,3 +3,4 @@ Redis
 importlib
 multiprocessing
 six
+opencv-python

@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 
 import TextField from '@material-ui/core/TextField'
 import Upload from 'rc-upload';
-
+import Chip from '@material-ui/core/Chip';
 
 // import Card from "./components/Card/Card.jsx";
 
@@ -19,7 +19,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 
-var styles = {
+var styles = theme => ({
   ...dashboardStyle,
   cardTitle: {
     marginTop: "0",
@@ -29,8 +29,11 @@ var styles = {
     marginBottom: "0px",
     textDecoration: "none",
     fontSize: "24px"
+  },
+  chip: {
+    margin: theme.spacing.unit
   }
-};
+});
 
 
 class Panel extends Component {
@@ -120,6 +123,15 @@ class Panel extends Component {
                 <Button type="submit" variant="contained" color="primary">
                   <Upload {...this.uploaderProps} ref="inner">Upload Folder Zip</Upload>
                 </Button>
+              </div>
+
+              <div className="row">
+                  {
+                    this.props.package.map((pp, i) =>
+                    (
+                      <Chip label={pp} className={classes.chip } />
+                    )) 
+                  }
               </div>
            </form>
             </CardBody>

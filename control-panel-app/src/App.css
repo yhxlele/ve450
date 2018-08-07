@@ -43,7 +43,7 @@
  */
 
  .submitbutton {
-   margin-top: 20px;
+   margin-top: 12px;
    margin-bottom: 15px;
  }
 
@@ -56,5 +56,9 @@
   margin-top: 20px;
   margin-left: 8%;
   margin-right: 8%;
+}
+
+.wrapper{
+  /* margin: 4px; */
 }
 
